@@ -12,57 +12,71 @@ A simple Java Swing-based To-Do List Application that allows users to manage tas
     private JButton addButton, deleteButton;
 
     public ToDoApp() {
-        setTitle("To-Do List App");
-        setSize(400, 400);
+        setTitle("✅ To-Do List App");
+        setSize(400, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Center the window
+        setLocationRelativeTo(null); // Center window
         setLayout(new BorderLayout());
 
-        // Input field at top
-        JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new BorderLayout());
+        // Set custom icon (optional: place an icon file in project folder)
+        ImageIcon icon = new ImageIcon("todo_icon.png");
+        setIconImage(icon.getImage());
+
+        // Set background color
+        getContentPane().setBackground(new Color(240, 248, 255)); // light blueish
+
+        // Input panel
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        inputPanel.setBackground(new Color(230, 240, 255));
 
         taskInput = new JTextField();
-        addButton = new JButton("Add Task");
+        taskInput.setFont(new Font("Arial", Font.PLAIN, 16));
+        taskInput.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        addButton = new JButton("➕ Add Task");
+        addButton.setBackground(new Color(100, 149, 237));
+        addButton.setForeground(Color.WHITE);
+        addButton.setFocusPainted(false);
 
         inputPanel.add(taskInput, BorderLayout.CENTER);
         inputPanel.add(addButton, BorderLayout.EAST);
 
-        // Task list in center
+        // Task list
         taskListModel = new DefaultListModel<>();
         taskList = new JList<>(taskListModel);
+        taskList.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        taskList.setSelectionBackground(new Color(135, 206, 250));
         JScrollPane scrollPane = new JScrollPane(taskList);
 
-        // Delete button at bottom
-        deleteButton = new JButton("Delete Task");
+        // Delete button
+        deleteButton = new JButton("🗑️ Delete Task");
+        deleteButton.setBackground(new Color(220, 20, 60));
+        deleteButton.setForeground(Color.WHITE);
+        deleteButton.setFocusPainted(false);
 
-        // Add panels to frame
+        // Add components
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(deleteButton, BorderLayout.SOUTH);
 
-        // Action: Add task
-        addButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String task = taskInput.getText().trim();
-                if (!task.isEmpty()) {
-                    taskListModel.addElement(task);
-                    taskInput.setText("");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Task cannot be empty!");
-                }
+        // Add Task Action
+        addButton.addActionListener(e -> {
+            String task = taskInput.getText().trim();
+            if (!task.isEmpty()) {
+                taskListModel.addElement(task);
+                taskInput.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Task cannot be empty!");
             }
         });
 
-        // Action: Delete selected task
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int selectedIndex = taskList.getSelectedIndex();
-                if (selectedIndex != -1) {
-                    taskListModel.remove(selectedIndex);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please select a task to delete!");
-                }
+        // Delete Task Action
+        deleteButton.addActionListener(e -> {
+            int selectedIndex = taskList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                taskListModel.remove(selectedIndex);
+            } else {
+                JOptionPane.showMessageDialog(this, "Select a task to delete!");
             }
         });
     }
@@ -74,4 +88,6 @@ A simple Java Swing-based To-Do List Application that allows users to manage tas
     }
     }
 
+       
 
+   
